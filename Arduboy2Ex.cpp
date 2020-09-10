@@ -30,15 +30,22 @@ size_t Arduboy2Ex::write(uint8_t c)
 
 void Arduboy2Ex::drawChar(int16_t x, int16_t y, unsigned char c)
 {
-  const uint8_t* bitmap = &font5x7[c * characterWidth];
+  int16_t index = y / characterHeight * WIDTH + x;
 
-  uint8_t* buffer = &sBuffer[y / characterHeight * WIDTH + x];
+  // boundary check
+  if ((index < 0) || (static_cast<uint16_t>(index + characterWidth) > (sizeof sBuffer - 1)))
+  {
+    return;
+  }
+
+  const uint8_t* bitmap = &font5x7[c * characterWidth];
+  uint8_t* buffer = &sBuffer[index];
 
   for (uint8_t i = 0; i < characterWidth; ++i)
   {
     *(buffer++) = pgm_read_byte(bitmap++);
   }
 
-  *buffer = 0;
+  *buffer = 0; // inter-character space (one pixel)
 }
 
