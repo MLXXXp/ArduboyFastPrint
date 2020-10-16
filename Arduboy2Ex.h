@@ -1,3 +1,6 @@
+#ifndef ARDUBOY2EX_H
+#define ARDUBOY2EX_H
+
 // Class derived from Arduboy2 to replace regular write() and drawChar()
 // functions with restricted fast versions.
 
@@ -24,4 +27,6 @@ class Arduboy2Ex : public Arduboy2
   virtual size_t write(uint8_t c);
   static void drawChar(int16_t x, int16_t y, unsigned char c);
 };
+
+#endif
 
